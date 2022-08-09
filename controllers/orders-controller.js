@@ -55,25 +55,25 @@ const getOrdersByUserId = async (req, res, next) => {
 };
 
 const createOrder = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next(
-            new HttpError('Invalid inputs passed, please check your data.', 422)
-        );
-    }
+    //const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //     return next(
+    //         new HttpError('Invalid inputs passed, please check your data.', 422)
+    //     );
+    // }
 
-    const { orderNumber, ordersNumber, totalPrice, date, orders, onTable, creator } = req.body;
+    const { orderNumber, mealsNumber, totalPrice, date, meals, onTable, creator } = req.body;
 
 
 
     const createdOrder = new Order({
         orderNumber,
-        ordersNumber,
+        mealsNumber,
         totalPrice,
         date,
-        orders,
+        meals,
         onTable,
-        status: 'In preparation',
+        status: 'in preparation',
         creator
     });
 
@@ -93,7 +93,7 @@ const createOrder = async (req, res, next) => {
         return next(error);
     }
 
-    console.log(user);
+    // console.log(user);
 
     try {
         const sess = await mongoose.startSession();
@@ -103,6 +103,7 @@ const createOrder = async (req, res, next) => {
         await user.save({ session: sess });
         await sess.commitTransaction();
     } catch (err) {
+        console.log(err);
         const error = new HttpError(
             'Creating order failed, please try again 2.',
             500

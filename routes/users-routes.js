@@ -9,6 +9,9 @@ router.get('/', usersController.getUsers);
 
 router.get('/:uid', usersController.getUserById);
 
+router.get('/onTable/:uid', usersController.getUserTableById);
+
+
 router.post(
     '/signup',
     [
