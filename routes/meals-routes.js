@@ -7,6 +7,9 @@ const router = express.Router();
 
 router.get('/', mealsController.getMeals);
 
+router.get('/:mid', mealsController.getMealNameById);
+
+
 router.post(
     '/add-meal',
     [

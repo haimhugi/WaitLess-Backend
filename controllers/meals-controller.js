@@ -23,10 +23,35 @@ const getMeals = async (req, res, next) => {
         categories: categories.map(category => category.toObject({ getters: true }))
     }
     );
-
-
-
 };
+
+const getMealNameById = async (req, res, next) => {
+    const mealId = req.params.mid;
+
+    let meal;
+    try {
+        meal = await Meal.findById(mealId);
+    } catch (err) {
+        const error = new HttpError(
+            'Fetching user failed, please try again later.',
+            500
+        );
+        return next(error);
+    }
+    if (!meal) {
+        console.log(mealId);
+        const error = new HttpError(
+            'Invalid credentials, could not find user.',
+            401
+        );
+        return next(error);
+    }
+
+    res.json({
+        name: meal.name
+    });
+};
+
 
 const createMeal = async (req, res, next) => {
     // const errors = validationResult(req);
@@ -202,6 +227,7 @@ const updateReview = async (req, res, next) => {
 
 
 exports.getMeals = getMeals;
+exports.getMealNameById = getMealNameById;
 exports.createMeal = createMeal;
 exports.updateMeal = updateMeal;
 exports.deleteMeal = deleteMeal;
