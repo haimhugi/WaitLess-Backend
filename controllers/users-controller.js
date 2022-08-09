@@ -184,6 +184,36 @@ const updateEmail = async (req, res, next) => {
 };
 
 
+const getUserTableById = async (req, res, next) => {
+    const userId = req.params.uid;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (err) {
+        const error = new HttpError(
+            'Fetching user failed, please try again later.',
+            500
+        );
+        return next(error);
+    }
+    if (!user) {
+        console.log(userId);
+        const error = new HttpError(
+            'Invalid credentials, could not find user.',
+            401
+        );
+        return next(error);
+    }
+
+    res.json({
+        onTable: user.onTable
+    });
+};
+
+
+
+
 const updateTable = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -226,4 +256,5 @@ exports.signup = signup;
 exports.login = login;
 exports.updateName = updateName;
 exports.updateEmail = updateEmail;
+exports.getUserTableById = getUserTableById;
 exports.updateTable = updateTable;
