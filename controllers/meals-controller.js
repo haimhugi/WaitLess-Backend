@@ -28,24 +28,6 @@ const getMeals = async (req, res, next) => {
 
 };
 
-const getMealByName = async (req, res, next) => {
-    const mealName = req.params.name;
-
-    try {
-        Meal.findOne({name: mealName}, 
-            function(err, result) {
-                res.json({ meal: result.toObject({ getters: true })});
-            });
-
-    } catch (err) {
-        const error = new HttpError(
-            'Fetching meal failed, please try again later.',
-            500
-        );
-        return next(error);
-    }
-};
-
 const createMeal = async (req, res, next) => {
     // const errors = validationResult(req);
     // if (!errors.isEmpty()) {
@@ -220,7 +202,6 @@ const updateReview = async (req, res, next) => {
 
 
 exports.getMeals = getMeals;
-exports.getMealByName = getMealByName;
 exports.createMeal = createMeal;
 exports.updateMeal = updateMeal;
 exports.deleteMeal = deleteMeal;
