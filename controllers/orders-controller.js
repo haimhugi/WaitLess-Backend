@@ -18,6 +18,7 @@ const getOrders = async (req, res, next) => {
         return next(error);
     }
     res.json({ orders: orders.map(order => order.toObject({ getters: true })) });
+
 };
 
 
@@ -138,6 +139,7 @@ const deleteOrder = async (req, res, next) => {
     try {
         order = await Order.findById(orderId).populate('creator');
     } catch (err) {
+        console.log(err);
         const error = new HttpError(
             'Something went wrong, could not delete order.',
             500
