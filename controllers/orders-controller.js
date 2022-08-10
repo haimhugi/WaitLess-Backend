@@ -6,8 +6,23 @@ const HttpError = require('../models/http-error');
 const Order = require('../models/order');
 const User = require('../models/user');
 
+const getOrders = async (req, res, next) => {
+    let orders;
+    try {
+        orders = await Order.find({});
+    } catch (err) {
+        const error = new HttpError(
+            'Fetching users failed, please try again later.',
+            500
+        );
+        return next(error);
+    }
+    res.json({ orders: orders.map(order => order.toObject({ getters: true })) });
+};
+
+
 const getOrderById = async (req, res, next) => {
-    const orderId = req.params.pid;
+    const orderId = req.params.oid;
 
     let order;
     try {
@@ -117,7 +132,7 @@ const createOrder = async (req, res, next) => {
 
 
 const deleteOrder = async (req, res, next) => {
-    const orderId = req.params.pid;
+    const orderId = req.params.oid;
 
     let order;
     try {
@@ -162,7 +177,7 @@ const updateStatus = async (req, res, next) => {
         );
     }
     const status = req.body.status;
-    const orderId = req.params.pid;
+    const orderId = req.params.oid;
     let order;
     try {
         order = await Order.findById(orderId);
@@ -188,6 +203,7 @@ const updateStatus = async (req, res, next) => {
     res.status(200).json({ order: order.toObject({ getters: true }) });
 };
 
+exports.getOrders = getOrders;
 exports.getOrderById = getOrderById;
 exports.getOrdersByUserId = getOrdersByUserId;
 exports.createOrder = createOrder;

@@ -5,7 +5,10 @@ const ordersController = require('../controllers/orders-controller');
 
 const router = express.Router();
 
-router.get('/:pid', ordersController.getOrderById);
+router.get('/', ordersController.getOrders);
+
+
+router.get('/:oid', ordersController.getOrderById);
 
 router.get('/user/:uid', ordersController.getOrdersByUserId);
 
@@ -26,11 +29,11 @@ router.post(
 
 
 
-router.delete('/:pid', ordersController.deleteOrder);
+router.delete('/:oid', ordersController.deleteOrder);
 
 
 router.patch(
-    '/update-status/:pid',
+    '/update-status/:oid',
     [
         check('status').not().isEmpty(),
     ],
