@@ -25,6 +25,24 @@ const getMeals = async (req, res, next) => {
     );
 };
 
+const getCategories = async (req, res, next) => {
+    let categories;
+    try {
+        categories = await Category.find({});
+
+    } catch (err) {
+        const error = new HttpError(
+            'Fetching categories failed, please try again later.',
+            500
+        );
+        return next(error);
+    }
+    res.json({
+        categories: categories.map(category => category.toObject({ getters: true }))
+    }
+    );
+};
+
 const getMealNameById = async (req, res, next) => {
     const mealId = req.params.mid;
 
@@ -227,6 +245,7 @@ const updateReview = async (req, res, next) => {
 
 
 exports.getMeals = getMeals;
+exports.getCategories = getCategories;
 exports.getMealNameById = getMealNameById;
 exports.createMeal = createMeal;
 exports.updateMeal = updateMeal;

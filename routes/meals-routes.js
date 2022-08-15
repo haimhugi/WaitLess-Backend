@@ -7,6 +7,9 @@ const router = express.Router();
 
 router.get('/', mealsController.getMeals);
 
+router.get('/categories', mealsController.getCategories);
+
+
 router.get('/:mid', mealsController.getMealNameById);
 
 

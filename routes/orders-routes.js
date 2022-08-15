@@ -31,7 +31,6 @@ router.post(
 
 router.delete('/:oid', ordersController.deleteOrder);
 
-
 router.patch(
     '/update-status/:oid',
     [
