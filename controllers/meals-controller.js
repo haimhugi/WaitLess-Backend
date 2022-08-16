@@ -158,7 +158,6 @@ const deleteMeal = async (req, res, next) => {
     }
 
     try {
-        console.log(meal);
         await meal.remove();
     } catch (err) {
         const error = new HttpError('Deleting meal failed,please try again', 500);

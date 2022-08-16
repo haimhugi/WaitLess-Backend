@@ -249,6 +249,26 @@ const updateTable = async (req, res, next) => {
     res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const deleteUser = async (req, res, next) => {
+    const userId = req.params.uid;
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (err) {
+        const error = new HttpError('Deleting user failed1,please try again', 500);
+        return next(error);
+    }
+
+    try {
+        await user.remove();
+    } catch (err) {
+        const error = new HttpError('Deleting user failed,please try again', 500);
+        return next(error);
+    }
+
+    res.status(200).json({ message: 'Deleted user.' });
+};
+
 
 exports.getUsers = getUsers;
 exports.getUserById = getUserById;
@@ -258,3 +278,4 @@ exports.updateName = updateName;
 exports.updateEmail = updateEmail;
 exports.getUserTableById = getUserTableById;
 exports.updateTable = updateTable;
+exports.deleteUser = deleteUser;

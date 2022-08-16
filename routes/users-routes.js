@@ -47,5 +47,7 @@ router.patch(
     ],
     usersController.updateTable
 );
+router.delete('/deleteUser/:uid', usersController.deleteUser);
+
 
 module.exports = router;
