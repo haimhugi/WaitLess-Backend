@@ -211,17 +211,13 @@ const deleteCategory = async (req, res, next) => {
 };
 
 const updateReview = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next(
-            new HttpError('Invalid inputs passed, please check your data.', 422)
-        );
-    }
+
     const review = +req.body.review;
-    const mealId = req.params.pid;
+    const mealName = req.params.mname;
     let meal;
     try {
-        meal = await Meal.findById(mealId);
+        meal = await Meal.find({ name: mealName }, {});
+        // meal = await Meal.findById(mealId);
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not update meal.',
@@ -229,10 +225,10 @@ const updateReview = async (req, res, next) => {
         );
         return next(error);
     }
-    meal.review.average = ((meal.review.average * meal.review.numOfReviews) + review) / (meal.review.numOfReviews + 1);
-    meal.review.numOfReviews += 1;
+    meal[0].review.average = ((meal[0].review.average * meal[0].review.numOfReviews) + review) / (meal[0].review.numOfReviews + 1);
+    meal[0].review.numOfReviews += 1;
     try {
-        await meal.save();
+        await meal[0].save();
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not update meal.',
@@ -241,7 +237,7 @@ const updateReview = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(200).json({ meal: meal.toObject({ getters: true }) });
+    res.status(200).json({ meal: meal[0].toObject({ getters: true }) });
 };
 
 

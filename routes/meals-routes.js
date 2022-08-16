@@ -43,7 +43,7 @@ router.patch(
 );
 
 router.patch(
-    '/update-review/:pid',
+    '/update-review/:mname',
     [
         check('review').not().isEmpty(),
     ],
