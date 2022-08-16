@@ -158,6 +158,7 @@ const deleteMeal = async (req, res, next) => {
     }
 
     try {
+        console.log(meal);
         await meal.remove();
     } catch (err) {
         const error = new HttpError('Deleting meal failed,please try again', 500);
@@ -189,18 +190,20 @@ const createCategory = async (req, res, next) => {
 };
 
 const deleteCategory = async (req, res, next) => {
-    const categoryId = req.params.uid;
+    const categoryName = req.params.cname;
     let category;
     try {
-        category = await Category.findById(categoryId);
+        category = await Category.find({ name: categoryName }, {});
+
     } catch (err) {
         const error = new HttpError('Deleting category failed1,please try again', 500);
         return next(error);
     }
 
     try {
-        await category.remove();
+        await category[0].remove();
     } catch (err) {
+        console.log(err);
         const error = new HttpError('Deleting category failed,please try again', 500);
         return next(error);
     }

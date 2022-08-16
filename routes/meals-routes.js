@@ -54,7 +54,7 @@ router.patch(
 
 
 router.delete('/deleteMeal/:uid', mealsController.deleteMeal);
-router.delete('/deleteCategory/:uid', mealsController.deleteCategory);
+router.delete('/deleteCategory/:cname', mealsController.deleteCategory);
 
 
 
