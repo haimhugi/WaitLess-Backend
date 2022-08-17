@@ -27,7 +27,7 @@ const getOrderById = async (req, res, next) => {
 
     let order;
     try {
-        order = await order.findById(orderId);
+        order = await Order.findById(orderId);
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not find a order.',
@@ -80,7 +80,7 @@ const createOrder = async (req, res, next) => {
 
     const { orderNumber, mealsNumber, totalPrice, date, meals, onTable, creator } = req.body;
 
-
+    console.log(meals);
 
     const createdOrder = new Order({
         orderNumber,
@@ -205,10 +205,48 @@ const updateStatus = async (req, res, next) => {
     res.status(200).json({ order: order.toObject({ getters: true }) });
 };
 
+
+const updateIsReviewed = async (req, res, next) => {
+
+    const orderId = req.params.oid;
+    const mealInOrderId = req.params.mioid;
+
+    let order;
+    try {
+        order = await Order.findById(orderId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update order.',
+            500
+        );
+        return next(error);
+    }
+    for (let element of order.meals) {
+        if (element._id == mealInOrderId && !element.isReviewed) {
+            element.isReviewed = true;
+            break;
+        }
+    };
+
+    try {
+        await order.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update order.',
+            500
+        );
+        return next(error);
+    }
+
+    res.status(200).json({ order: order.toObject({ getters: true }) });
+};
+
+
 exports.getOrders = getOrders;
 exports.getOrderById = getOrderById;
 exports.getOrdersByUserId = getOrdersByUserId;
 exports.createOrder = createOrder;
 exports.deleteOrder = deleteOrder;
 exports.updateStatus = updateStatus;
+exports.updateIsReviewed = updateIsReviewed
 

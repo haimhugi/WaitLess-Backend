@@ -39,4 +39,9 @@ router.patch(
     ordersController.updateStatus
 );
 
+router.patch(
+    '/update-is-reviewed/:oid/:mioid',
+    ordersController.updateIsReviewed
+);
+
 module.exports = router;
