@@ -18,12 +18,12 @@ const getUsers = async (req, res, next) => {
 };
 
 const getUserById = async (req, res, next) => {
-    const userId = req.params.uid;
-
+    const userId = req.params.uid.replace(/\r?\n|\r/g, "");
     let user;
     try {
         user = await User.findById(userId);
     } catch (err) {
+        console.log(err);
         const error = new HttpError(
             'Fetching user failed, please try again later.',
             500
