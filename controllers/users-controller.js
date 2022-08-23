@@ -183,6 +183,47 @@ const updateEmail = async (req, res, next) => {
     res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const updatePassword = async (req, res, next) => {
+    const userId = req.params.uid;
+    const { oldPassword, newPassword } = req.body;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update table.',
+            500
+        );
+        return next(error);
+    }
+
+    if (!user || user.password !== oldPassword) {
+        const error = new HttpError(
+            'Invalid old password, could not change password ',
+            401
+        );
+        return next(error);
+    }
+
+    user.password = newPassword;
+
+    try {
+        await user.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not save update password.',
+            500
+        );
+        console.log(err);
+        return next(error);
+    }
+
+    res.status(200).json({ user: user.toObject({ getters: true }) });
+};
+
+
+
 
 const getUserTableById = async (req, res, next) => {
     const userId = req.params.uid;
@@ -276,6 +317,7 @@ exports.signup = signup;
 exports.login = login;
 exports.updateName = updateName;
 exports.updateEmail = updateEmail;
+exports.updatePassword = updatePassword;
 exports.getUserTableById = getUserTableById;
 exports.updateTable = updateTable;
 exports.deleteUser = deleteUser;

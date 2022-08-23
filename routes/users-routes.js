@@ -41,6 +41,15 @@ router.patch(
 );
 
 router.patch(
+    '/update-password/:uid',
+    [
+        check('oldPassword').not().isEmpty(),
+        check('newPassword').not().isEmpty(),
+    ],
+    usersController.updatePassword
+);
+
+router.patch(
     '/update-table/:pid',
     [
         check('onTable').not().isEmpty(),
