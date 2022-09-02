@@ -77,11 +77,11 @@ const createMeal = async (req, res, next) => {
     //     throw new HttpError('Invalid inputs passed , please check your data', 422);
     // }
     const { image, name, description, price, category } = req.body;
-    console.log('image is ' + image + ' ');
-    console.log('name is ' + name + ' ');
-    console.log('description is ' + description + ' ');
-    console.log('price is ' + price + ' ');
-    console.log('category is ' + category + ' ');
+    // console.log('image is ' + image + ' ');
+    // console.log('name is ' + name + ' ');
+    // console.log('description is ' + description + ' ');
+    // console.log('price is ' + price + ' ');
+    // console.log('category is ' + category + ' ');
 
 
     const createdMeal = new Meal({

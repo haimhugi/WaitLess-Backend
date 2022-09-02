@@ -80,7 +80,7 @@ const createOrder = async (req, res, next) => {
 
     const { orderNumber, mealsNumber, totalPrice, date, meals, onTable, creator } = req.body;
 
-    console.log(meals);
+    // console.log(meals);
 
     const createdOrder = new Order({
         orderNumber,
