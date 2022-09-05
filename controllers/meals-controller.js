@@ -57,7 +57,6 @@ const getMealNameById = async (req, res, next) => {
         return next(error);
     }
     if (!meal) {
-        console.log(mealId);
         const error = new HttpError(
             'Invalid credentials, could not find user.',
             401
@@ -72,16 +71,7 @@ const getMealNameById = async (req, res, next) => {
 
 
 const createMeal = async (req, res, next) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     throw new HttpError('Invalid inputs passed , please check your data', 422);
-    // }
     const { image, name, description, price, category } = req.body;
-    // console.log('image is ' + image + ' ');
-    // console.log('name is ' + name + ' ');
-    // console.log('description is ' + description + ' ');
-    // console.log('price is ' + price + ' ');
-    // console.log('category is ' + category + ' ');
 
 
     const createdMeal = new Meal({
@@ -96,9 +86,6 @@ const createMeal = async (req, res, next) => {
     try {
         await createdMeal.save();
     } catch (err) {
-        // const error = new HttpError('Creating meal failed,please try again', 500);
-        // return next(error);
-        console.log(err);
     }
 
     res.status(201).json({ meal: createdMeal });
@@ -202,7 +189,6 @@ const deleteCategory = async (req, res, next) => {
     try {
         await category[0].remove();
     } catch (err) {
-        console.log(err);
         const error = new HttpError('Deleting category failed,please try again', 500);
         return next(error);
     }

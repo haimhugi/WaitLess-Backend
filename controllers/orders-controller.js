@@ -80,8 +80,6 @@ const createOrder = async (req, res, next) => {
 
     const { orderNumber, mealsNumber, totalPrice, date, meals, onTable, creator } = req.body;
 
-    // console.log(meals);
-
     const createdOrder = new Order({
         orderNumber,
         mealsNumber,
@@ -109,7 +107,6 @@ const createOrder = async (req, res, next) => {
         return next(error);
     }
 
-    // console.log(user);
 
     try {
         const sess = await mongoose.startSession();
@@ -119,7 +116,6 @@ const createOrder = async (req, res, next) => {
         await user.save({ session: sess });
         await sess.commitTransaction();
     } catch (err) {
-        console.log(err);
         const error = new HttpError(
             'Creating order failed, please try again 2.',
             500
@@ -139,7 +135,6 @@ const deleteOrder = async (req, res, next) => {
     try {
         order = await Order.findById(orderId).populate('creator');
     } catch (err) {
-        console.log(err);
         const error = new HttpError(
             'Something went wrong, could not delete order.',
             500

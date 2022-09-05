@@ -23,7 +23,6 @@ const getUserById = async (req, res, next) => {
     try {
         user = await User.findById(userId);
     } catch (err) {
-        console.log(err);
         const error = new HttpError(
             'Fetching user failed, please try again later.',
             500
@@ -31,7 +30,6 @@ const getUserById = async (req, res, next) => {
         return next(error);
     }
     if (!user) {
-        console.log(userId);
         const error = new HttpError(
             'Invalid credentials, could not find user.',
             401
@@ -146,7 +144,6 @@ const updateName = async (req, res, next) => {
             'Something went wrong, could not save update onTable.',
             500
         );
-        console.log(err);
         return next(error);
     }
 
@@ -176,7 +173,6 @@ const updateEmail = async (req, res, next) => {
             'Something went wrong, could not save update onTable.',
             500
         );
-        console.log(err);
         return next(error);
     }
 
@@ -215,7 +211,6 @@ const updatePassword = async (req, res, next) => {
             'Something went wrong, could not save update password.',
             500
         );
-        console.log(err);
         return next(error);
     }
 
@@ -239,7 +234,6 @@ const getUserTableById = async (req, res, next) => {
         return next(error);
     }
     if (!user) {
-        console.log(userId);
         const error = new HttpError(
             'Invalid credentials, could not find user.',
             401
@@ -283,7 +277,6 @@ const updateTable = async (req, res, next) => {
             'Something went wrong, could not save update onTable.',
             500
         );
-        console.log(err);
         return next(error);
     }
 

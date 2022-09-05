@@ -43,5 +43,4 @@ mongoose.connect('mongodb+srv://HaimHugi:pass1234@cluster0.wsdcptt.mongodb.net/?
         app.listen(5001);
     })
     .catch(err => {
-        console.log(err);
     });
